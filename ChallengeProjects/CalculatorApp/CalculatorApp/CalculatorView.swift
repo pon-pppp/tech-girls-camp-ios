@@ -13,6 +13,10 @@ struct CalculatorView: View {
     @State var firstNumber: String = ""
     @State var secondNumber: String = ""
     @State var result: String = "?"
+    @State var thirdNumber: String = ""
+    @State var forthNumber: String = ""
+    @State var result2: String = ""
+    
     
     var body: some View {
         VStack(spacing: 20) {
@@ -29,6 +33,7 @@ struct CalculatorView: View {
                     .multilineTextAlignment(.center)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                 
+                
                 Text("+")
                     .font(.title)
                 
@@ -38,6 +43,7 @@ struct CalculatorView: View {
                     .frame(width: 60)
                     .multilineTextAlignment(.center)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                
                 
                 Text("=")
                     .font(.title)
@@ -66,15 +72,72 @@ struct CalculatorView: View {
                     .cornerRadius(10)
             }
             .padding(.horizontal)
-
+            
             Spacer()
         }
         .padding()
         
         Divider()
         
-        // TODO: - Challenge2
-        // 引き算電卓も作ってみよう
+        Text("引き算電卓")
+            .font(.largeTitle)
+            .fontWeight(.bold)
+        
+        HStack(spacing: 10) {
+            // 1つ目の入力フィールド
+            // @Stateのついたプロパティには$をつけるというおまじない。
+            TextField("?", text: $thirdNumber)
+                .keyboardType(.numberPad)
+                .frame(width: 60)
+                .multilineTextAlignment(.center)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+            
+            
+            Text("-")
+                .font(.title)
+            
+            // 2つ目の入力フィールド
+            TextField("?", text: $forthNumber)
+                .keyboardType(.numberPad)
+                .frame(width: 60)
+                .multilineTextAlignment(.center)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+            
+            
+            Text("=")
+                .font(.title)
+            
+            // 結果の表示
+            Text(result2)
+                .font(.title)
+                .fontWeight(.bold)
+                .frame(width: 100)
+                .multilineTextAlignment(.center)
+        }
+        
+        // 計算ボタン
+        Button(action: {
+            // ここでボタンを押した時の挙動を記述
+            // 今回は calculateSum() というメソッド(関数)を呼び出しています
+            // 具体的な処理は calculateSum() 内に記述します
+            calculateSum()
+        }) {
+            Text("計算する")
+                .fontWeight(.bold)
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+        }
+        .padding(.horizontal)
+        
+        Spacer()
+        
+            .padding()
+            
+            Divider()
+    
         
     }
     
@@ -82,9 +145,35 @@ struct CalculatorView: View {
     func calculateSum() {
         // TODO: - Challenge1
         // ここに計算ロジックを記述し、計算結果を表示できるようにしてみよう
+        if let firstNumberInt = Int(firstNumber), let secondNumberInt = Int(secondNumber) {
+            // 値が存在する時はこっち (= Intにキャストできた時)
+            let resultInt = firstNumberInt + secondNumberInt
+            result = String(resultInt)
+        } else {
+            // 値が存在しない時はこっち (= Intにキャストできなかった時)
+            result = "Error"
+        }
+        
+        if let thirdNumberInt = Int(thirdNumber), let forthNumberInt = Int(forthNumber) {
+            // 値が存在する時はこっち (= Intにキャストできた時)
+            let result2Int = thirdNumberInt - forthNumberInt
+            result2 = String(result2Int)
+        } else {
+            // 値が存在しない時はこっち (= Intにキャストできなかった時)
+            result2 = "Error"
+        }
 
     }
-}
+    
+
+    }
+    
+    
+    
+
+
+
+
 
 #Preview {
     CalculatorView()
