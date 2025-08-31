@@ -9,7 +9,16 @@ import SwiftUI
 
 struct bView: View {
     var body: some View {
-        Text("B. 二重に丸を配置")
+        ZStack {
+            Image(systemName: "circle.fill")
+                .resizable()
+                .frame(width: 100, height: 100)
+                .foregroundColor(.yellow)
+            Image(systemName: "circle.fill")
+                .resizable()
+                .frame(width: 50, height: 50)
+                .foregroundColor(.orange)
+        }
     }
 }
 
